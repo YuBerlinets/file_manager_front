@@ -30,9 +30,17 @@ button {
     border-radius: 5px;
     background-color: #363636;
     padding: 20px;
+    width: 100%;
 }
-.upper_text{
+
+.upper_text {
     font-size: 22px;
     color: #00897b;
     margin-top: 20px;
+}
+
+.account_info {
+    font-size: 18px;
+    color: #00897b;
+    margin: 5px;
 }

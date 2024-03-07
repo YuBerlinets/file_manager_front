@@ -6,7 +6,7 @@ import "/src/assets/styles/account.css";
 interface User {
     username: string;
     name: string;
-    accountConfirmed: boolean;
+    isConfirmed: boolean;
     roles: string[];
 
 }
@@ -16,21 +16,19 @@ export default function Account() {
     const [userData, setUserData] = useState<User>({
         username: '',
         name: '',
-        accountConfirmed: false,
+        isConfirmed: false,
         roles: []
     });
 
     useEffect(() => {
-        const fetchFiles = async () => {
-            try {
-                const response = await api.user.getInformation();
+        api.user.getInformation()
+            .then((response) => {
+                console.log(response.data);
                 setUserData(response.data);
-            } catch (error) {
-                console.error('Error fetching files:', error);
-            }
-        };
-
-        fetchFiles();
+            })
+            .catch((error) => {
+                console.error('Error fetching trains:', error);
+            });
     }, []);
 
 
@@ -42,7 +40,7 @@ export default function Account() {
                     <h2 className='upper_text'>{userData.username}</h2>
                     <span className="account_info">Username: {userData.username}</span>
                     <span className="account_info">Name: {userData.name}</span>
-                    <span className="account_info">Account confirmed: {userData.accountConfirmed}</span>
+                    <span className="account_info">Account confirmed: {userData.isConfirmed? 'Yes. Everything is fine.': 'No. Wait admin to confirm it.'}</span>
                     <span className="account_info">Roles: {userData.roles}</span>
 
                 </div>
