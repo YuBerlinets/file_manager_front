@@ -1,0 +1,38 @@
+body {
+    margin: 0;
+    color: #969696;
+    font-family: 'Roboto', sans-serif;
+    padding: 0;
+    background-color: #282828;
+}
+
+a {
+    text-decoration: none;
+    color: #969696;
+}
+
+button {
+    border-style: none;
+    cursor: pointer;
+}
+
+.account_container {
+    display: flex;
+    flex-direction: column;
+    max-width: 1440px;
+    margin: 0 auto;
+}
+
+.account_div {
+    margin-top: 80px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+    background-color: #363636;
+    padding: 20px;
+}
+.upper_text{
+    font-size: 22px;
+    color: #00897b;
+    margin-top: 20px;
+}

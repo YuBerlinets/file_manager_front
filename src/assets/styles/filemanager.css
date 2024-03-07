@@ -1,0 +1,120 @@
+body {
+    margin: 0;
+    color: #969696;
+    font-family: 'Roboto', sans-serif;
+    padding: 0;
+    background-color: #282828;
+}
+
+a {
+    text-decoration: none;
+    color: #969696;
+}
+
+button {
+    border-style: none;
+    cursor: pointer;
+}
+
+.container {
+    max-width: 1440px;
+    margin: 0 auto;
+}
+
+.upper_div {
+    margin: 25px 10px 25px 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.upper_info {
+    font-size: 22px;
+    color: #00897B;
+    text-align: right;
+    display: block;
+}
+
+.upper_control_button {
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+
+}
+
+.upper_control_button:hover {
+    color: #00897B;
+    transition: all 0.5s;
+}
+
+.search_div {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.search_bar {
+    background-color: #363636;
+    border-radius: 10px;
+    width: 90%;
+    font-size: 18px;
+    padding: 8px 13px 8px 13px;
+    color: #00897B;
+    margin: 5px;
+}
+
+.search_button {
+    background-color: #00897b;
+    color: #fff;
+    font-size: 16px;
+    border-radius: 5px;
+
+    width: 80px;
+    border: 2px solid #00897b;
+}
+
+.search_button:hover {
+    background-color: #fff;
+    color: #00897b;
+    transition: all 0.7s;
+    border: 2px solid #00897b;
+}
+
+
+
+
+
+.files_div {
+    background-color: #363636;
+    margin-top: 20px;
+}
+
+.files_table {
+    padding: 10px;
+    width: 100%;
+}
+
+
+.download_button {
+    cursor: pointer;
+    color: #fff;
+}
+
+.download_button:hover {
+    color: #00897B;
+    transition: all 0.5s;
+}
+
+.columns_head {
+    font-size: 20px;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.row_icon {
+    width: 32px;
+    margin: 0 auto;
+}
+
+.files_table_inner {
+    border-bottom: 2px solid #790c0c;
+}
