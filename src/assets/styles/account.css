@@ -19,7 +19,7 @@ button {
 .account_container {
     display: flex;
     flex-direction: column;
-    max-width: 1440px;
+    width: 1440px;
     margin: 0 auto;
 }
 
@@ -33,14 +33,75 @@ button {
     width: 100%;
 }
 
-.upper_text {
+.upper_account_text {
+    font-size: 22px;
+    color: #fff;
+    color: #fff;
+    margin-top: 10px;
+    margin-bottom: 0px;
+}
+
+.upper_username_text {
     font-size: 22px;
     color: #00897b;
-    margin-top: 20px;
+    /* margin-top: 10px; */
 }
 
 .account_info {
     font-size: 18px;
     color: #00897b;
     margin: 5px;
+}
+
+.admin_panel_button {
+    margin-top: 20px;
+    background-color: #00897b;
+    color: #fff;
+    padding: 5px 10px 5px 10px;
+    border-radius: 5px;
+    font-size: 18px;
+    margin: 0 auto;
+}
+
+.users_table {
+    margin-top: 20px;
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+
+.users_table_body {
+    background-color: #363636;
+    color: #fff;
+    font-size: 16px;
+    padding: 10px;
+}
+
+
+.files_div {
+    background-color: #363636;
+    margin-top: 20px;
+}
+
+.files_table {
+    padding: 10px;
+    width: 100%;
+}
+
+
+.users_table_head {
+    font-size: 20px;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.users_table_inner {
+    border-bottom: 2px solid #282828;
+    font-size: 18px;
+}
+
+.user_table_td {
+    padding-top: 8px;
+    padding-bottom: 8px;
 }

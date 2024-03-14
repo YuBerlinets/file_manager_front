@@ -55,7 +55,6 @@ const FileManager: React.FC<FileListProps> = () => {
             document.body.appendChild(link);
             link.click();
 
-
             document.body.removeChild(link);
             window.URL.revokeObjectURL(url);
         } catch (error) {
@@ -95,7 +94,8 @@ const FileManager: React.FC<FileListProps> = () => {
                         </tr>
                     </thead>
                     <tbody className='columns_body'>
-                        {files.map((file, index) => (
+                        {
+                        files.map((file, index) => (
                             <tr key={index} className='files_table_inner'>
                                 <td>
                                     {file.isDirectory === true ?
@@ -113,7 +113,8 @@ const FileManager: React.FC<FileListProps> = () => {
                                         : null}
                                 </td>
                             </tr>
-                        ))}
+                        ))
+                        }
                     </tbody>
                 </table>
             </div>

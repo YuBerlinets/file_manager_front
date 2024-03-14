@@ -12,13 +12,15 @@ const apiInstance: AxiosInstance = axios.create({
 const api = {
     files: {
         allFiles: () => apiInstance.get(`api/files/info`),
-        downloadFile: (fileName: string) => axios.get(`/api/files/${fileName}`, { responseType: 'blob' }),
+        downloadFile: (fileName: string) => axios.get(`/api/files/${fileName}`),
     },
 
     user: {
         register: (username: string, password: string, name: string) => apiInstance.post('/api/user/register', { username, password, name }),
         authenticate: (username: string, password: string) => apiInstance.post('/api/user/login', { username, password }),
         getInformation: () => apiInstance.get('/api/user/info'),
+        getNotConfirmedUsers: () => apiInstance.get('/api/user/not_confirmed_accounts'),
+        confirmUser: (username: string) => apiInstance.post(`/api/user/confirm_account/${username}`),
     }
 };
 
