@@ -31,6 +31,8 @@ const FileManager: React.FC<FileListProps> = () => {
     useEffect(() => {
         const fetchFiles = async () => {
             try {
+
+                console.log(localStorage.getItem('token'));
                 const response: FileResponse = await api.files.allFiles();
                 setFiles(response.data);
             } catch (error) {
@@ -45,7 +47,9 @@ const FileManager: React.FC<FileListProps> = () => {
         try {
             const response = await api.files.downloadFile(fileName);
 
-            const blob = new Blob([response.data], { type: response.headers['content-type'] });
+            const blob = new Blob([response.data], { type: response.data.type });
+
+            console.log(blob)
 
             const url = window.URL.createObjectURL(blob);
             const link = document.createElement('a');
@@ -60,6 +64,19 @@ const FileManager: React.FC<FileListProps> = () => {
         } catch (error) {
             console.error('Error downloading file:', error);
         }
+    };
+
+    const downloadFile = async (filename: string) => {
+        const username = localStorage.getItem('username');
+        //fix 
+        const baseUrl = "/api/files/";
+        const url = `${baseUrl}${username}/${filename}`;
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', filename);
+        document.body.appendChild(link);
+        link.click()
+        document.body.removeChild(link);
     };
 
     return (
@@ -95,25 +112,26 @@ const FileManager: React.FC<FileListProps> = () => {
                     </thead>
                     <tbody className='columns_body'>
                         {
-                        files.map((file, index) => (
-                            <tr key={index} className='files_table_inner'>
-                                <td>
-                                    {file.isDirectory === true ?
-                                        <img src="src/img/folder.svg" alt="Folder" className="row_icon" />
-                                        : <img src="src/img/file.svg" alt="File" className="row_icon" />}
+                            files.map((file, index) => (
+                                <tr key={index} className='files_table_inner'>
+                                    <td>
+                                        {file.isDirectory === true ?
+                                            <img src="src/img/folder.svg" alt="Folder" className="row_icon" />
+                                            : <img src="src/img/file.svg" alt="File" className="row_icon" />}
 
-                                </td>
-                                <td>{file.name}</td>
-                                <td>{file.lastModified}</td>
-                                <td>{file.path}</td>
-                                <td>{file.size}</td>
-                                <td>
-                                    {file.isDirectory !== true ?
-                                        <a onClick={() => handleDownload(file.name)} className='download_button'>Download</a>
-                                        : null}
-                                </td>
-                            </tr>
-                        ))
+                                    </td>
+                                    <td>{file.name}</td>
+                                    <td>{file.lastModified}</td>
+                                    <td>{file.path}</td>
+                                    <td>{file.size}</td>
+                                    <td>
+                                        {file.isDirectory !== true ?
+                                            <a onClick={() => handleDownload(file.name)} className='download_button'>Download</a>
+                                            : null}
+                                        {/* <a href='http://localhost:8083/api/files/test' className='download_button'> Download</a> */}
+                                    </td>
+                                </tr>
+                            ))
                         }
                     </tbody>
                 </table>

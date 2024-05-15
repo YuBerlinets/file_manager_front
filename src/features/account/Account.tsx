@@ -45,7 +45,7 @@ export default function Account() {
                     <span className="account_info">Username: {userData.username}</span>
                     <span className="account_info">Name: {userData.name}</span>
                     <span className="account_info">Account confirmed: {userData.isConfirmed ? 'Yes. Everything is fine.' : 'No. Wait admin to confirm it.'}</span>
-                    <span className="account_info">Roles: {userData.roles}</span>
+                    <span className="account_info">Roles: {userData.roles.toString()}</span>
                 </div>
             </div>
         </div>

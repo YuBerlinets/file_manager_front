@@ -8,6 +8,8 @@ interface NotConfirmedUser {
     username: string;
     name: string;
     isConfirmed: boolean;
+    registrationDate: Date;
+    roles: string[];
 }
 
 
@@ -53,9 +55,11 @@ export default function AdminPanel() {
                                             <td className='user_table_td'>{user.username}</td>
                                             <td className='user_table_td'>{user.name}</td>
                                             <td className='user_table_td'>{user.isConfirmed ? 'Yes' : 'No'}</td>
-                                            <td className='user_table_td'>date</td>
-                                            <td className='user_table_td'>Assign roles</td>
-                                            <td className='user_table_td'>Confirm</td>
+                                            <td className='user_table_td'>{user.registrationDate === null ? 'No data' : user.registrationDate.toLocaleString()}</td>
+                                            <td className='user_table_td'>{user.roles.toString()}</td>
+                                            <td className='user_table_td'>
+                                                <a onClick={() => api.user.confirmUser(user.username)} className='confirm_button'>Confirm</a>
+                                            </td>
                                         </tr>
                                     ))
                                 }

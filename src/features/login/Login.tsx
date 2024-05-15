@@ -1,7 +1,7 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
 import "/src/assets/styles/login_sign_up_styles.css";
 import { api, setAuthToken } from '../../app/api/ApiConfig';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 
 interface LoginData {
@@ -17,12 +17,11 @@ function sentDataToServer(data: LoginData, navigate: any) {
     api.user.authenticate(data.username, data.password)
         .then((response) => {
             if (response.status === 200 && response.data.token !== null) {
-                sessionStorage.setItem('token', response.data.token);
                 localStorage.setItem('token', response.data.token);
                 localStorage.setItem('username', data.username);
                 console.log(localStorage.getItem('token'));
                 console.log(localStorage.getItem('username'));
-                setAuthToken(response.data.token);
+                navigate = useNavigate();
                 navigate('/manager', { replace: true });
             }
             else {
