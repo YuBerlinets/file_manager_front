@@ -80,8 +80,37 @@ button {
     border: 2px solid #00897b;
 }
 
+.search_error {
+    display: flex;
+    margin: 20px;
+    display: none;
+}
 
+.search_error_text {
+    display: block;
+    color: red;
+    font-size: 20px;
+    text-align: center;
+}
 
+.upload_div {
+    display: flex;
+    text-align: right;
+}
+
+.upload_button {
+    background-color: #00897b;
+    color: #fff;
+    font-size: 16px;
+    border-radius: 5px;
+    width: 80px;
+    border: 2px solid #00897b;
+}
+
+.upload_icon {
+    width: 32px;
+    cursor: pointer;
+}
 
 
 .files_div {

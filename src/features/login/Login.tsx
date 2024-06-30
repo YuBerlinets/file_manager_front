@@ -4,50 +4,54 @@ import { api, setAuthToken } from '../../app/api/ApiConfig';
 import { Navigate, useNavigate } from 'react-router-dom';
 
 
+
 interface LoginData {
     username: string;
     password: string;
 }
 
 
-
-
 function sentDataToServer(data: LoginData, navigate: any) {
-
     api.user.authenticate(data.username, data.password)
         .then((response) => {
+            console.log(response);
             if (response.status === 200 && response.data.token !== null) {
                 localStorage.setItem('token', response.data.token);
                 localStorage.setItem('username', data.username);
-                console.log(localStorage.getItem('token'));
-                console.log(localStorage.getItem('username'));
-                navigate = useNavigate();
-                navigate('/manager', { replace: true });
-            }
-            else {
-                let login_error_div = document.querySelector('.login_error') as HTMLDivElement;
-                let login_error_text = document.querySelector('.login_error_text') as HTMLSpanElement;
-                if (login_error_div !== null && login_error_text !== null) {
-                    login_error_div.style.display = 'flex';
-                    login_error_text.innerText = 'Invalid username or password';
-                } else {
-                    console.log('Error')
-                }
+                // console.log(localStorage.getItem('token'));
+                // console.log(localStorage.getItem('username'));
+                
+                // crutch fix mb this
+                // navigate('/filemanager', { replace: true })
+                window.location.reload();
             }
         })
         .catch((error) => {
-            if (error.response.status === 403) {
-                let login_error_div = document.querySelector('.login_error') as HTMLDivElement;
-                let login_error_text = document.querySelector('.login_error_text') as HTMLSpanElement;
-                if (login_error_div !== null && login_error_text !== null) {
-                    login_error_div.style.display = 'flex';
-                    login_error_text.innerText = 'Invalid username or password';
-                }
+            let login_error_div = document.querySelector('.login_error') as HTMLDivElement;
+            let login_error_text = document.querySelector('.login_error_text') as HTMLSpanElement;
+            switch (error.response.status) {
+                case 404:
+                    if (login_error_div !== null && login_error_text !== null) {
+                        login_error_div.style.display = 'flex';
+                        login_error_text.innerText = 'Invalid username or password';
+                    }
+                    break;
+                case 403:
+                    if (login_error_div !== null && login_error_text !== null) {
+                        login_error_div.style.display = 'flex';
+                        login_error_text.innerText = 'Invalid username or password';
+                    }
+                    break;
+                case 400:
+                    if (login_error_div !== null && login_error_text !== null) {
+                        login_error_div.style.display = 'flex';
+                        login_error_text.innerText = 'Your account is not confirmed yet! Please wait for confirmation!';
+                    }
+                    break;
+                default:
+                    console.error(error);
             }
-            else {
 
-                console.error(error);
-            }
         });
 
 }

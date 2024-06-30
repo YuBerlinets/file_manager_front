@@ -8,16 +8,29 @@ const apiInstance: AxiosInstance = axios.create({
 
 const api = {
     files: {
-        allFiles: () => apiInstance.get(`api/files/info`),
-        downloadFile: (fileName: string) => apiInstance.get(`/api/files/${fileName}`, { responseType: 'blob' }),
+        allFiles: () => apiInstance.get(`api/files`),
+        downloadFile: (fileName: string) => apiInstance.get(`/api/files/download/${fileName}`, { responseType: 'blob' }),
+        uploadFile: (file: File) => {
+            const formData = new FormData();
+            formData.append('file', file);
+            return apiInstance.post('/api/files/upload', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+        },
+        filesSearch: (filename: string) => apiInstance.get(`api/files/search/${filename}`),
+        infoByDirectory: (directory: string) => apiInstance.get(`api/files/by-directory/${directory}`),
     },
 
     user: {
         register: (username: string, password: string, name: string) => apiInstance.post('/api/user/register', { username, password, name }),
         authenticate: (username: string, password: string) => apiInstance.post('/api/user/login', { username, password }),
-        getInformation: () => apiInstance.get('/api/user/info'),
-        getNotConfirmedUsers: () => apiInstance.get('/api/user/admin/not_confirmed_accounts'),
-        confirmUser: (username: string) => apiInstance.post(`/api/user/admin/confirm_account/${username}`),
+        getInformation: () => apiInstance.get('/api/user/account'),
+        getNotConfirmedUsers: () => apiInstance.get('/api/admin/not-confirmed_accounts'),
+        confirmUser: (username: string) => apiInstance.post(`/api/admin/confirm-account/${username}`),
+        getUsers: () => apiInstance.get('/api/admin/all-accounts'),
+
     }
 };
 
