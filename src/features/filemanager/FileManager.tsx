@@ -28,9 +28,11 @@ function logout(navigate: any) {
 }
 
 const FileManager: React.FC<FileListProps> = () => {
+    const [isError, setIsError] = useState<boolean>(false);
     const navigate = useNavigate();
     const [files, setFiles] = useState<File[]>([]);
     const [searchQuery, setSearchQuery] = useState<string>('');
+    const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
 
     useEffect(() => {
@@ -66,7 +68,7 @@ const FileManager: React.FC<FileListProps> = () => {
     };
 
     const handleUpload = async () => {
-        const fileInput = document.getElementById('file') as HTMLInputElement;
+        const fileInput = document.getElementById('file_upload') as HTMLInputElement;
         if (fileInput?.files?.length) {
             const file = fileInput.files[0];
 
@@ -87,20 +89,29 @@ const FileManager: React.FC<FileListProps> = () => {
         }
     };
 
-    const handleSearch = async () => {
+    const handleSearch = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
         if (searchQuery.trim() === '') {
-            console.error('Please enter a search term');
+            // console.error('Please enter a search term');
+            const response: FileResponse = await api.files.allFiles();
+            setFiles(response.data);
+            setIsError(false);
             return;
         }
-
         try {
             const response: FileResponse = await api.files.filesSearch(searchQuery);
             setFiles(response.data);
+            setIsError(response.data.length === 0);
         } catch (error) {
-            let search_error_div = document.querySelector('.search_error') as HTMLDivElement;
-            if (search_error_div !== null) {
-                search_error_div.style.display = 'flex';
-            }
+            console.error('Error searching files:', error);
+            setIsError(true);
+        }
+    };
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            // @ts-ignore
+            setSelectedFiles(Array.from(e.target.files));
         }
     };
 
@@ -114,31 +125,49 @@ const FileManager: React.FC<FileListProps> = () => {
                     </a>
                     <br />
                     <a className='upper_control_button'
-                        onClick={() => logout(navigate)}>Log out
+                        onClick={() => logout(navigate)}>
+                        Log out
                     </a>
                 </span>
             </div>
             <div className="search_div">
-                <input
-                    type="text"
-                    className="search_bar"
-                    placeholder='Search'
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                />
-                <button className="search_button" onClick={handleSearch} type='submit'>
-                    Search
-                </button>
+                <form onSubmit={handleSearch} className='search_form'>
+                    <input
+                        type="text"
+                        className="search_bar"
+                        placeholder='Search'
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                    <button className="search_button" type='submit'>
+                        Search
+                    </button>
+                </form>
             </div>
-
-            <div className='search_error'>
-                <span className='search_error_text'>No files was found</span>
-            </div>
+            {isError && <div className='search_error'>
+                <span className='search_error_text'>No files were found</span>
+            </div>}
 
             <div className='upload_div'>
-                <input type="file" id="file" className="upload_input" />
-                <img className="upload_icon" src='src/img/upload-icon.svg' alt='upload' onClick={handleUpload}></img>
+                <label htmlFor="file_upload" className="file_upload_label">
+                    Upload files
+                </label>
+                <input
+                    type="file"
+                    id="file_upload"
+                    className="upload_input"
+                    onChange={handleFileChange}
+                />
+                <img className="upload_icon" src='src/img/upload-icon.svg' alt='upload' onClick={handleUpload} />
+                <div className="selected_files">
+                    {selectedFiles.map((file, index) => (
+                        <div key={index} className="selected_file">
+                            {file.name}
+                        </div>
+                    ))}
+                </div>
             </div>
+
 
             <div className="files_div">
                 <table className='files_table'>

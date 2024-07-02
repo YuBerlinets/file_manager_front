@@ -34,7 +34,7 @@ export default function AdminPanel() {
         const fetchUsers = async () => {
             try {
                 const usersData: Users = await api.user.getUsers();
-                console.log(usersData.data);
+                // console.log(usersData.data);
                 setUsers(usersData.data);
             } catch (error) {
                 console.log(error)

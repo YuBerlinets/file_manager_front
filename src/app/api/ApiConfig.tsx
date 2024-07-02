@@ -27,7 +27,7 @@ const api = {
         register: (username: string, password: string, name: string) => apiInstance.post('/api/user/register', { username, password, name }),
         authenticate: (username: string, password: string) => apiInstance.post('/api/user/login', { username, password }),
         getInformation: () => apiInstance.get('/api/user/account'),
-        getNotConfirmedUsers: () => apiInstance.get('/api/admin/not-confirmed_accounts'),
+        getNotConfirmedUsers: () => apiInstance.get('/api/admin/not-confirmed-accounts'),
         confirmUser: (username: string) => apiInstance.post(`/api/admin/confirm-account/${username}`),
         getUsers: () => apiInstance.get('/api/admin/all-accounts'),
 
