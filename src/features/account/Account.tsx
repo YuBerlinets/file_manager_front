@@ -12,6 +12,7 @@ interface User {
 }
 
 
+
 export default function Account() {
     const [userData, setUserData] = useState<User>({
         username: '',
@@ -20,6 +21,10 @@ export default function Account() {
         roles: [],
         registrationDate: new Date()
     });
+
+    const [password, setPassword] = useState('');
+    const [passwordRepeat, setPasswordRepeat] = useState('');
+    const [error, setError] = useState<boolean>();
 
     useEffect(() => {
         api.user.getInformation()
@@ -34,22 +39,73 @@ export default function Account() {
     }, []);
 
 
+    const handlePasswordUpdate = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        try {
+
+
+            const response = await api.user.updatePassword(password, passwordRepeat);
+            console.log(response);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setPassword(event.target.value);
+        setError(event.target.value !== passwordRepeat);
+    };
+
+    const handlePasswordRepeatChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setPasswordRepeat(event.target.value);
+        setError(event.target.value !== password);
+    };
+
     return (
         <div className='main_div'>
             <div className="account_container">
                 <div className="account_div">
                     <h1 className='upper_account_text'>Account</h1>
-                    <h2 className='upper_username_text'>Hello, {userData.username}</h2>
+                    <span className='upper_username_text'>Hello, <span className='username_upper'>{userData.username}.</span></span>
                     <div className="admin_panel_div">
                         {userData.roles.includes('ADMIN') ? (
                             <a href="/filemanager/account/adminPanel" className="admin_panel_button">Admin Panel</a>
                         ) : null}
                     </div>
-                    <span className="account_info">Username: {userData.username}</span>
-                    <span className="account_info">Name: {userData.name}</span>
-                    <span className="account_info">Account confirmed: {userData.accountIsConfirmed ? 'Yes. Everything is fine.' : 'No. Wait admin to confirm it.'}</span>
-                    <span className="account_info">Roles: {userData.roles.toString()}</span>
-                    <span className="account_info">Registration date: {userData.registrationDate.toLocaleString()}</span>
+                    <div className="account_info">
+                        {/* <span className="account_info_inner">Username: <span className='account_info_field'>{userData.username}</span></span> */}
+                        <span className="account_info_inner">Name: <span className='account_info_field'>{userData.name}</span></span>
+                        <span className="account_info_inner">Account confirmed: <span className='account_info_field'>{userData.accountIsConfirmed ? 'Yes. Everything is fine.' : 'No. Wait admin to confirm it.'}</span></span>
+                        <span className="account_info_inner">Roles: <span className='account_info_field'>{userData.roles.toString()}</span></span>
+                        <span className="account_info_inner">Registration date: <span className='account_info_field'>{userData.registrationDate.toLocaleString()}</span></span>
+                    </div>
+                    <div className="update_password_div">
+                        <h2 className="update_password_title">Update password</h2>
+                        {error ? <span className='error_message'>Passwords do not match</span> : null}
+                        <form onSubmit={handlePasswordUpdate} className='update_password_form'>
+                            <label htmlFor="password" className='password_input_label'>Enter password</label>
+                            <input
+                                type="password"
+                                name="password"
+                                id="password"
+                                value={password}
+                                onChange={handlePasswordChange}
+                                className='password_input'
+                            />
+                            <label htmlFor="password_repeat" className='password_input_label'>Enter password</label>
+                            <input
+                                type="password"
+                                name="password_repeat"
+                                id="password_repeat"
+                                value={passwordRepeat}
+                                onChange={handlePasswordRepeatChange}
+                                className='password_input'
+                            />
+                            <button type="submit" className="update_password_button">
+                                Update password
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

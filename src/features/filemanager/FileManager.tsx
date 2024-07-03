@@ -14,12 +14,12 @@ interface File {
     name: string;
     path: string;
     lastModified: string;
-    size: number;
+    size: string;
     file: boolean;
     directory: boolean;
 }
 
-function logout(navigate: any) {
+function logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
     // crutch fix mb this
@@ -70,10 +70,10 @@ const FileManager: React.FC<FileListProps> = () => {
     const handleUpload = async () => {
         const fileInput = document.getElementById('file_upload') as HTMLInputElement;
         if (fileInput?.files?.length) {
-            const file = fileInput.files[0];
+            const files = fileInput.files;
 
             try {
-                const response = await api.files.uploadFile(file);
+                const response = await api.files.uploadFiles(files);
                 if (response.status === 200) {
                     console.log('File uploaded successfully');
                     const response: FileResponse = await api.files.allFiles();
@@ -125,7 +125,7 @@ const FileManager: React.FC<FileListProps> = () => {
                     </a>
                     <br />
                     <a className='upper_control_button'
-                        onClick={() => logout(navigate)}>
+                        onClick={() => logout()}>
                         Log out
                     </a>
                 </span>
@@ -157,6 +157,7 @@ const FileManager: React.FC<FileListProps> = () => {
                     id="file_upload"
                     className="upload_input"
                     onChange={handleFileChange}
+                    multiple 
                 />
                 <img className="upload_icon" src='src/img/upload-icon.svg' alt='upload' onClick={handleUpload} />
                 <div className="selected_files">
@@ -192,7 +193,7 @@ const FileManager: React.FC<FileListProps> = () => {
                                 <td>{file.name}</td>
                                 <td>{file.lastModified}</td>
                                 <td>{file.path}</td>
-                                <td>{file.size}</td>
+                                <td>{file.size === null ? '' : file.size}</td>
                                 <td>
                                     {file.directory !== true ?
                                         <a onClick={() => handleDownload(file.name)} className='download_button'>Download</a>

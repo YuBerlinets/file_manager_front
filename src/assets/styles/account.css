@@ -33,8 +33,10 @@ button {
     width: 100%;
 }
 
+
+
 .upper_account_text {
-    font-size: 22px;
+    font-size: 26px;
     color: #fff;
     color: #fff;
     margin-top: 10px;
@@ -45,22 +47,110 @@ button {
     font-size: 22px;
     color: #00897b;
     /* margin-top: 10px; */
+    margin-top: 10px;
+    margin-bottom: 15px;
 }
 
 .account_info {
-    font-size: 18px;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.account_info_inner {
+    font-size: 20px;
     color: #00897b;
-    margin: 5px;
+    margin: 7px;
+}
+
+.account_info_field {
+    font-size: 20px;
+    color: #fff;
+    margin: 7px;
+
+}
+
+.username_upper {
+    font-size: 22px;
+    color: #fff;
+    margin-top: 10px;
+
+}
+
+.admin_panel_div {
+    display: flex;
 }
 
 .admin_panel_button {
-    margin-top: 20px;
     background-color: #00897b;
     color: #fff;
     padding: 5px 10px 5px 10px;
     border-radius: 5px;
     font-size: 18px;
-    margin: 0 auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+}
+
+.update_password_div {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.update_password_title {
+    font-size: 24px;
+    color: #fff;
+    margin-bottom: 2px;
+}
+
+.update_password_form {
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+    ;
+}
+
+.password_input_label {
+    color: #00897b;
+    font-size: 18px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.password_input {
+    background-color: #363636;
+    border-radius: 10px;
+    font-size: 16px;
+    padding: 8px 13px 8px 13px;
+    color: #00897B;
+    border: 1px solid #00897B;
+    width: 70%;
+
+}
+
+.update_password_button {
+    margin-top: 15px;
+    width: 45%;
+    padding: 8px 14px 8px 14px;
+    font-size: 16px;
+    background-color: #00897B;
+    color: #fff;
+    border-radius: 5px;
+}
+
+.update_password_button:hover {
+    background-color: #fff;
+    color: #00897B;
+    border: 1px solid #00897B;
+    transition: all 0.7s;
+}
+
+.error_message {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .users_table {

@@ -10,9 +10,12 @@ const api = {
     files: {
         allFiles: () => apiInstance.get(`api/files`),
         downloadFile: (fileName: string) => apiInstance.get(`/api/files/download/${fileName}`, { responseType: 'blob' }),
-        uploadFile: (file: File) => {
+        uploadFiles: (files: FileList) => {
             const formData = new FormData();
-            formData.append('file', file);
+            // formData.append('file', file);
+            Array.from(files).forEach(file => {
+                formData.append('files', file);
+            });
             return apiInstance.post('/api/files/upload', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -30,7 +33,7 @@ const api = {
         getNotConfirmedUsers: () => apiInstance.get('/api/admin/not-confirmed-accounts'),
         confirmUser: (username: string) => apiInstance.post(`/api/admin/confirm-account/${username}`),
         getUsers: () => apiInstance.get('/api/admin/all-accounts'),
-
+        updatePassword : (password: string, password_repeat: string) => apiInstance.post('api/user/update-password',{password,password_repeat})
     }
 };
 
