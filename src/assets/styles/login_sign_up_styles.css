@@ -94,7 +94,6 @@ button {
 }
 
 .login_error {
-    display: none;
     flex-direction: column;
     align-items: center;
     background-color: #363535;
@@ -128,7 +127,6 @@ button {
 }
 
 .register_success_div{
-    display: none;
     flex-direction: column;
     align-items: center;
     background-color: #363535;

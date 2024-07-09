@@ -35,6 +35,7 @@ button {
 
 
 
+
 .upper_account_text {
     font-size: 26px;
     color: #fff;
@@ -46,7 +47,6 @@ button {
 .upper_username_text {
     font-size: 22px;
     color: #00897b;
-    /* margin-top: 10px; */
     margin-top: 10px;
     margin-bottom: 15px;
 }
@@ -60,7 +60,8 @@ button {
 .account_info_inner {
     font-size: 20px;
     color: #00897b;
-    margin: 7px;
+    margin-top: 7px;
+    margin-bottom: 7px;
 }
 
 .account_info_field {
@@ -186,14 +187,34 @@ button {
     margin-bottom: 10px;
 }
 
-.users_table_inner {
+.user_table_th {
+    padding: 5px;
+}
+
+.users_table_inner_th {
+    background-color: #303030;
     border-bottom: 2px solid #282828;
     font-size: 18px;
 }
 
+.users_table_inner {
+    border-bottom: 2px solid #282828;
+    font-size: 18px;
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.users_table_inner:hover {
+    background-color: #282828;
+    transition: all 0.7s;
+}
+
 .user_table_td {
-    padding-top: 8px;
-    padding-bottom: 8px;
+    width: 18%;
+    /* padding-top: 8px;
+    padding-bottom: 8px; */
+    padding: 8px;
 }
 
 .confirm_button {
@@ -204,4 +225,26 @@ button {
     font-size: 18px;
     margin: 0 auto;
     cursor: pointer;
+}
+
+.confirm_button:hover {
+    background-color: #fff;
+    color: #00897b;
+    transition: all 0.7s;
+}
+
+.delete_button {
+    background-color: red;
+    color: #fff;
+    padding: 5px 10px 5px 10px;
+    border-radius: 5px;
+    font-size: 18px;
+    margin: 0 auto;
+    cursor: pointer;
+}
+
+.delete_button:hover {
+    background-color: #fff;
+    color: red;
+    transition: all 0.7s;
 }

@@ -1,5 +1,5 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
-import "/src/assets/styles/login_sign_up_styles.css"
+import "/src/assets/styles/login_sign_up_styles.css";
 import { api } from '../../app/api/ApiConfig';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,42 +9,21 @@ interface RegisterData {
     password: string;
 }
 
-function succesfullRegister(message: string, navigate: any) {
-    let register_error_div = document.querySelector('.register_success_div') as HTMLDivElement;
-    let register_error_text = document.querySelector('.register_success_text') as HTMLSpanElement;
-    if (register_error_div !== null && register_error_text !== null) {
-        register_error_div.style.display = 'flex';
-        register_error_text.innerText = message;
-    } else {
-        console.log('Error')
-    }
-    setTimeout(() => {
-        navigate('/login', { replace: true });
-    }, 2000);
-}
-
-function failedRegister(message: string) {
-    let register_error_div = document.querySelector('.register_error_div') as HTMLDivElement;
-    let register_error_text = document.querySelector('.register_error_text') as HTMLSpanElement;
-    if (register_error_div !== null && register_error_text !== null) {
-        register_error_div.style.display = 'flex';
-        register_error_text.innerText = message;
-    } else {
-        console.log('Error')
-    }
-}
-
-function sentDataToServer(data: RegisterData, navigate: any) {
+function sentDataToServer(data: RegisterData, setSuccessMessage: (message: string) => void, setErrorMessage: (message: string) => void, navigate: any) {
     api.user.register(data.username, data.password, data.name)
         .then((response) => {
             if (response.status === 200 && response.data.token !== null) {
-                succesfullRegister(response.data.message, navigate);
+                setSuccessMessage(response.data.message);
+                setTimeout(() => {
+                    navigate('/login', { replace: true });
+                }, 1000);
             } else {
-                failedRegister(response.data.message);
+                setErrorMessage(response.data.message);
             }
         })
         .catch((error) => {
             console.error(error);
+            setErrorMessage('An unexpected error occurred');
         });
 }
 
@@ -55,6 +34,8 @@ export default function Home() {
         name: '',
         password: ''
     });
+    const [successMessage, setSuccessMessage] = useState<string>('');
+    const [errorMessage, setErrorMessage] = useState<string>('');
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
         const { name, value } = e.target;
@@ -63,20 +44,23 @@ export default function Home() {
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
-
-        console.log('Register data submitted:', registerData);
+        sentDataToServer(registerData, setSuccessMessage, setErrorMessage, navigate);
     };
 
     return (
         <div className='main_div'>
             <div className="inner_div">
-                <h1 className='upper_text' >Sign up for service</h1>
-                <div className="register_error_div">
-                    <span className="register_error_text"></span>
-                </div>
-                <div className="register_success_div">
-                    <span className="register_success_text"></span>
-                </div>
+                <h1 className='upper_text'>Sign up for service</h1>
+                {errorMessage && (
+                    <div className="register_error_div">
+                        <span className="register_error_text">{errorMessage}</span>
+                    </div>
+                )}
+                {successMessage && (
+                    <div className="register_success_div">
+                        <span className="register_success_text">{successMessage}</span>
+                    </div>
+                )}
                 <div className="login_items">
                     <form onSubmit={handleSubmit} className='loginForm'>
                         <input
@@ -109,16 +93,11 @@ export default function Home() {
                             required
                         />
                         <br />
-                        <button type="submit" className='login_button'
-                            onClick={() => {
-                                sentDataToServer(registerData, navigate)
-                            }}>Sign Up</button>
+                        <button type="submit" className='login_button'>Sign Up</button>
                     </form>
                 </div>
                 <a href="/login" className="return_home_button">Return to login</a>
-
             </div>
         </div>
-
     );
 }

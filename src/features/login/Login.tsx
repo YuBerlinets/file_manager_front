@@ -1,67 +1,46 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
 import "/src/assets/styles/login_sign_up_styles.css";
-import { api, setAuthToken } from '../../app/api/ApiConfig';
-import { Navigate, useNavigate } from 'react-router-dom';
-
-
+import { api } from '../../app/api/ApiConfig';
 
 interface LoginData {
     username: string;
     password: string;
 }
 
-
-function sentDataToServer(data: LoginData, navigate: any) {
+function sentDataToServer(data: LoginData, setError: (message: string) => void) {
     api.user.authenticate(data.username, data.password)
         .then((response) => {
             console.log(response);
+            console.log(response.status);
             if (response.status === 200 && response.data.token !== null) {
                 localStorage.setItem('token', response.data.token);
                 localStorage.setItem('username', data.username);
-                // console.log(localStorage.getItem('token'));
-                // console.log(localStorage.getItem('username'));
-                
-                // crutch fix mb this
-                // navigate('/filemanager', { replace: true })
                 window.location.reload();
             }
         })
         .catch((error) => {
-            let login_error_div = document.querySelector('.login_error') as HTMLDivElement;
-            let login_error_text = document.querySelector('.login_error_text') as HTMLSpanElement;
+            console.error(error);
             switch (error.response.status) {
                 case 404:
-                    if (login_error_div !== null && login_error_text !== null) {
-                        login_error_div.style.display = 'flex';
-                        login_error_text.innerText = 'Invalid username or password';
-                    }
+                case 401:
+                    setError('Invalid username or password');
                     break;
                 case 403:
-                    if (login_error_div !== null && login_error_text !== null) {
-                        login_error_div.style.display = 'flex';
-                        login_error_text.innerText = 'Invalid username or password';
-                    }
-                    break;
-                case 400:
-                    if (login_error_div !== null && login_error_text !== null) {
-                        login_error_div.style.display = 'flex';
-                        login_error_text.innerText = 'Your account is not confirmed yet! Please wait for confirmation!';
-                    }
+                    setError('Your account is not confirmed yet! Please wait for confirmation!');
                     break;
                 default:
                     console.error(error);
+                    setError('An unexpected error occurred');
             }
-
         });
-
 }
 
 export default function Login() {
-    const navigate = useNavigate();
     const [loginData, setLoginData] = useState<LoginData>({
         username: '',
         password: '',
     });
+    const [error, setError] = useState<string>('');
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
         const { name, value } = e.target;
@@ -70,11 +49,14 @@ export default function Login() {
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
+        if (loginData.username === '' || loginData.password === '') {
+            loginDataEmpty();
+        } else {
+            sentDataToServer(loginData, setError);
+        }
     };
 
     const loginDataEmpty = (): void => {
-        let login_error_div = document.querySelector('.login_error') as HTMLDivElement;
-        let login_error_text = document.querySelector('.login_error_text') as HTMLSpanElement;
         let username_field = document.getElementById('username_field') as HTMLInputElement;
         let password_field = document.getElementById('password_field') as HTMLInputElement;
 
@@ -93,22 +75,19 @@ export default function Login() {
             password_field.style.border = 'none';
         }
 
-        if (login_error_div !== null && login_error_text !== null) {
-            login_error_div.style.display = 'flex';
-            login_error_text.innerText = 'Fill all the fields';
-        } else {
-            console.log('Error')
-        }
+        setError('Fill all the fields');
     };
 
     return (
         <div className='main_div'>
             <div className="inner_div">
-                <h1 className='upper_text' >Login to Service</h1>
+                <h1 className='upper_text'>Login to Service</h1>
                 <div className="login_items">
-                    <div className="login_error" id='login_error_id'>
-                        <span className="login_error_text" id='login_error_text_id'></span>
-                    </div>
+                    {error && (
+                        <div className="login_error" id='login_error_id'>
+                            <span className="login_error_text" id='login_error_text_id'>{error}</span>
+                        </div>
+                    )}
                     <form onSubmit={handleSubmit} className='loginForm'>
                         <input
                             type="text"
@@ -132,14 +111,7 @@ export default function Login() {
                             required
                         />
                         <br />
-                        <button type="submit" className='login_button'
-                            onClick={() => {
-                                if (loginData.username === '' || loginData.password === '') {
-                                    loginDataEmpty()
-                                } else {
-                                    sentDataToServer(loginData, navigate)
-                                }
-                            }}>Login</button>
+                        <button type="submit" className='login_button'>Login</button>
                     </form>
                 </div>
 
@@ -148,6 +120,5 @@ export default function Login() {
                 </span>
             </div>
         </div>
-
     );
 }

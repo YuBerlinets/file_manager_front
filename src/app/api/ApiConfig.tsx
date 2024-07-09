@@ -33,7 +33,9 @@ const api = {
         getNotConfirmedUsers: () => apiInstance.get('/api/admin/not-confirmed-accounts'),
         confirmUser: (username: string) => apiInstance.post(`/api/admin/confirm-account/${username}`),
         getUsers: () => apiInstance.get('/api/admin/all-accounts'),
-        updatePassword : (password: string, password_repeat: string) => apiInstance.post('api/user/update-password',{password,password_repeat})
+        updatePassword: (password: string, password_repeat: string) => apiInstance.post('api/user/update-password', { password, password_repeat }),
+        deleteUser: (username: string) => apiInstance.delete(`/api/admin/delete-account/${username}`),
+        getUserByUsername: (username: string) => apiInstance.get(`/api/admin/account/${username}`)
     }
 };
 

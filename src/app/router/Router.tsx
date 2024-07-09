@@ -6,6 +6,7 @@ import Register from "../../features/register/Register";
 import Error from "../../features/error/Error";
 import Account from "../../features/account/Account";
 import AdminPanel from "../../features/adminPanel/AdminPanel";
+import UserDetails from "../../features/account/UserDetails";
 
 const token = localStorage.getItem('token');
 const router = createBrowserRouter([
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
             {
                 path: '/filemanager/account/adminPanel',
                 element: token ? <AdminPanel /> : <Navigate to="/login" />
+            },
+            {
+                path: '/adminPanel/account/:username',
+                element: token ? <UserDetails /> : <Navigate to="/login" />
             },
             {
                 path: '*',
