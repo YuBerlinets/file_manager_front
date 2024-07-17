@@ -248,3 +248,52 @@ button {
     color: red;
     transition: all 0.7s;
 }
+
+.user_details_info {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.user_details_back_button {
+    background-color: #00897b;
+    color: #fff;
+    padding: 5px 10px 5px 10px;
+    border-radius: 5px;
+    font-size: 18px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    width: 10%;
+}
+
+.user_details_back_button:hover {
+    background-color: #fff;
+    color: #00897b;
+    transition: all 0.7s;
+}
+
+.user_details_account_confirm_alert {
+    font-size: 20px;
+    color: #C40C0C;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.user_details_confirm_button {
+    background-color: #C40C0C;
+    color: #fff;
+    padding: 5px 10px 5px 10px;
+    border-radius: 5px;
+    font-size: 18px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    width: 10%;
+}
+
+.user_details_confirm_button:hover {
+    background-color: #fff;
+    color: #00897b;
+    transition: all 0.7s;
+}

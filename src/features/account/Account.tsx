@@ -44,7 +44,7 @@ export default function Account() {
         try {
 
 
-            const response = await api.user.updatePassword(password, passwordRepeat);
+            const response = await api.admin.updatePassword(password, passwordRepeat);
             console.log(response);
         } catch (error) {
             console.error(error);
@@ -69,7 +69,7 @@ export default function Account() {
                     <span className='upper_username_text'>Hello, <span className='username_upper'>{userData.username}.</span></span>
                     <div className="admin_panel_div">
                         {userData.roles.includes('ADMIN') ? (
-                            <a href="/filemanager/account/adminPanel" className="admin_panel_button">Admin Panel</a>
+                            <a href="/account/adminPanel" className="admin_panel_button">Admin Panel</a>
                         ) : null}
                     </div>
                     <div className="account_info">

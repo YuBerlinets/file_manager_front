@@ -16,26 +16,23 @@ const router = createBrowserRouter([
         children: [
             {
                 path: '/',
-                element: token ? <Navigate to="/filemanager" /> : <Navigate to="/login" />
+                element: token ? <FileManager /> : <Navigate to="/login" />
             },
             {
                 path: '/login',
-                element: !token ? <Login /> : <Navigate to="/filemanager" />
+                element: !token ? <Login /> : <Navigate to="/" />
             },
             {
                 path: '/register',
                 element: <Register />
             },
+
             {
-                path: '/filemanager',
-                element: token ? <FileManager /> : <Navigate to="/login" />
-            },
-            {
-                path: '/filemanager/account',
+                path: '/account',
                 element: token ? <Account /> : <Navigate to="/login" />
             },
             {
-                path: '/filemanager/account/adminPanel',
+                path: '/account/adminPanel',
                 element: token ? <AdminPanel /> : <Navigate to="/login" />
             },
             {

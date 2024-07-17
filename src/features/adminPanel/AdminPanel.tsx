@@ -17,7 +17,7 @@ export default function AdminPanel() {
     useEffect(() => {
         const fetchNotConfirmedUsers = async () => {
             try {
-                const usersData = await api.user.getNotConfirmedUsers();
+                const usersData = await api.admin.getNotConfirmedUsers();
                 setNotConfirmedUsers(usersData.data);
             } catch (error) {
                 console.log(error);
@@ -29,7 +29,7 @@ export default function AdminPanel() {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const usersData = await api.user.getUsers();
+                const usersData = await api.admin.getUsers();
                 console.log(usersData.data);
                 setUsers(usersData.data);
             } catch (error) {
@@ -41,7 +41,7 @@ export default function AdminPanel() {
 
     const handleConfirm = async (username: string) => {
         try {
-            await api.user.confirmUser(username);
+            await api.admin.confirmUser(username);
             setNotConfirmedUsers((prevUsers) => prevUsers.filter(user => user.username !== username));
             setUsers((prevUsers) => prevUsers.map(user => user.username === username ? { ...user, accountIsConfirmed: true } : user));
         } catch (error) {
@@ -51,7 +51,7 @@ export default function AdminPanel() {
 
     const handleDelete = async (username: string) => {
         try {
-            await api.user.deleteUser(username);
+            await api.admin.deleteUser(username);
             setUsers((prevUsers) => prevUsers.filter(user => user.username !== username));
         } catch (error) {
             console.log(error);

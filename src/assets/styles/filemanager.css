@@ -169,13 +169,40 @@ button {
     margin: 0 auto;
 }
 
-.files_table_inner {
-    border-bottom: 2px solid #790c0c;
+.files_table_inner {}
+
+.files_table_inner:hover {
+    background-color: #414040;
 }
 
-.search_form{
+.folder_row:hover {
+    background-color: #6b6b6b;
+    cursor: pointer;
+}
+
+.search_form {
     display: flex;
     justify-content: center;
     margin-top: 20px;
     width: 100%;
+}
+
+.back_button_div {
+    margin-top: 10px;
+}
+
+.back_button {
+    background-color: #00897B;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.back_button:hover {
+    background-color: #fff;
+    color:#00897B;
+    transition: background-color 0.7s ease;
 }
