@@ -45,7 +45,7 @@ export const useLoginForm = (): UseLoginFormReturn => {
                     setError('Invalid username or password');
                     break;
                 case 403:
-                    setError('Your account is not confirmed yet! Please wait for confirmation!');
+                    setError('Your account is not confirmed yet! Please wait for confirmation!')
                     break;
                 default:
                     setError('An unexpected error occurred');

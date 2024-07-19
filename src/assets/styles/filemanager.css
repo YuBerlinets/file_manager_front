@@ -169,7 +169,7 @@ button {
     margin: 0 auto;
 }
 
-.files_table_inner {}
+/* .files_table_inner {} */
 
 .files_table_inner:hover {
     background-color: #414040;

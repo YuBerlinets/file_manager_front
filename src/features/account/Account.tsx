@@ -29,8 +29,8 @@ export default function Account() {
     useEffect(() => {
         api.user.getInformation()
             .then((response) => {
-                console.log(response.data);
-                console.log(response.data.isConfirmed);
+                // console.log(response.data);
+                // console.log(response.data.isConfirmed);
                 setUserData(response.data);
             })
             .catch((error) => {
@@ -42,8 +42,6 @@ export default function Account() {
     const handlePasswordUpdate = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         try {
-
-
             const response = await api.admin.updatePassword(password, passwordRepeat);
             console.log(response);
         } catch (error) {

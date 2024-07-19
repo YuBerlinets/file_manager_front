@@ -23,7 +23,7 @@ apiInstance.interceptors.response.use(
     (response) => response,
     async (error) => {
         const originalRequest = error.config;
-        if (error.response.status === 403 && !originalRequest._retry) {
+        if (error.response.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
             const refreshToken = localStorage.getItem('refreshToken');
             if (refreshToken) {
@@ -77,6 +77,7 @@ const api = {
         getUserByUsername: (username: string) => apiInstance.get(`/api/admin/account/${username}`),
         updateRoles: (username: string, roles: string[]) => apiInstance.put(`/api/admin/update-roles/${username}`, { roles }),
         getAllRoles: () => apiInstance.get('/api/admin/roles'),
+        resetPassword: (username: string) => apiInstance.get(`/api/admin/reset-password/${username}`),
     }
 };
 

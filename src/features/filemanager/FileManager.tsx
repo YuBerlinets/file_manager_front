@@ -1,5 +1,3 @@
-// FileManager.tsx
-
 import React, { useEffect, useState } from 'react';
 import { api } from '../../app/api/ApiConfig';
 import "/src/assets/styles/filemanager.css";
@@ -7,8 +5,6 @@ import folderIcon from "/src/img/folder.svg";
 import fileIcon from "/src/img/file.svg";
 import uploadIcon from "/src/img/upload-icon.svg";
 import { useNavigate } from 'react-router-dom';
-
-interface FileListProps { }
 
 interface File {
     type: string;
@@ -27,7 +23,7 @@ const logout = () => {
     window.location.reload();
 };
 
-const FileManager: React.FC<FileListProps> = () => {
+const FileManager: React.FC = () => {
     const [files, setFiles] = useState<File[]>([]);
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
@@ -41,12 +37,9 @@ const FileManager: React.FC<FileListProps> = () => {
 
     const fetchFiles = async (path: string) => {
         try {
-            if (path === '/') {
-                const response = await api.files.allFiles();
-                setFiles(response.data);
-                return;
-            }
-            const response = await api.files.infoByPath(path);
+            const response = path === '/'
+                ? await api.files.allFiles()
+                : await api.files.infoByPath(path);
             setFiles(response.data);
         } catch (error) {
             console.error('Error fetching files:', error);
@@ -113,17 +106,13 @@ const FileManager: React.FC<FileListProps> = () => {
     };
 
     const handleFolderClick = (path: string) => {
-        if (currentPath !== '/') {
-            setCurrentPath(currentPath + '/' + path);
-            return;
-        }
-        setCurrentPath(path);
+        setCurrentPath(currentPath === '/' ? path : `${currentPath}/${path}`);
     };
 
     const handleBackClick = () => {
         const pathParts = currentPath.split('/').filter(part => part);
         pathParts.pop();
-        const newPath = '/' + pathParts.join('/');
+        const newPath = `/${pathParts.join('/')}`;
         setCurrentPath(newPath || '/');
     };
 
