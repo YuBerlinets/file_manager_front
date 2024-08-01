@@ -9,8 +9,14 @@ const apiInstance: AxiosInstance = axios.create({
 apiInstance.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('token');
-        if (token) {
+        const isRefreshEndpoint = config.url?.includes('/api/user/refresh-token');
+
+        if (token && !isRefreshEndpoint) {
             config.headers['Authorization'] = `Bearer ${token}`;
+        }
+
+        if (isRefreshEndpoint) {
+            delete config.headers['Authorization'];
         }
         return config;
     },
@@ -27,10 +33,24 @@ apiInstance.interceptors.response.use(
             originalRequest._retry = true;
             const refreshToken = localStorage.getItem('refreshToken');
             if (refreshToken) {
+                console.log('Refreshing token');
+                console.log(refreshToken);
+
                 try {
-                    const response = await api.user.refreshToken({ refreshToken });
+                    const response = await apiInstance.post('/api/user/refresh-token', { refreshToken });
+                    console.log(response)
+                    if (response.status !== 200) {
+                        localStorage.removeItem('username');
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('refreshToken');
+                        window.location.reload();
+                    }
                     localStorage.setItem('token', response.data.token);
-                    apiInstance.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
+                    localStorage.setItem('refreshToken', response.data.refreshToken);
+
+                    setAuthToken(response.data.token);
+
+                    originalRequest.headers['Authorization'] = `Bearer ${response.data.token}`;
                     return apiInstance(originalRequest);
                 } catch (e) {
                     localStorage.removeItem('username');
@@ -48,6 +68,9 @@ const api = {
     files: {
         allFiles: () => apiInstance.get(`api/files`),
         downloadFile: (fileName: string) => apiInstance.get(`/api/files/download`, { responseType: 'blob', params: { filename: fileName } }),
+        filesSearch: (filename: string) => apiInstance.get(`api/files/search/${filename}`),
+        infoByPath: (directory: string) => apiInstance.get(`api/files`, { params: { path: directory } }),
+        deleteFile: (filename: string) => apiInstance.delete(`api/files`,{ params: { filename: filename } }),
         uploadFiles: (files: FileList) => {
             const formData = new FormData();
             Array.from(files).forEach(file => {
@@ -59,13 +82,11 @@ const api = {
                 },
             });
         },
-        filesSearch: (filename: string) => apiInstance.get(`api/files/search/${filename}`),
-        infoByPath: (directory: string) => apiInstance.get(`api/files`, { params: { path: directory } }),
     },
     user: {
         register: (username: string, password: string, name: string) => apiInstance.post('/api/user/register', { username, password, name }),
         authenticate: (username: string, password: string) => apiInstance.post('/api/user/login', { username, password }),
-        refreshToken: (data: { refreshToken: string }) => apiInstance.post('/api/user/refresh-token', data),
+        refreshToken: (refreshToken: string) => apiInstance.post('/api/user/refresh-token', { refreshToken }),
         getInformation: () => apiInstance.get('/api/user/account'),
     },
     admin: {

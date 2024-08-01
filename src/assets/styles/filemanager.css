@@ -203,6 +203,23 @@ button {
 
 .back_button:hover {
     background-color: #fff;
-    color:#00897B;
+    color: #00897B;
     transition: background-color 0.7s ease;
+}
+
+.file_actions {
+    display: inline;
+}
+
+.actions_icon {
+    width: 24px;
+    cursor: pointer;
+    margin-right: 10px;
+    margin-left: 10px;
+    fill: #00897B;
+
+}
+
+.actions_icon:hover {
+    fill: #00897B;
 }

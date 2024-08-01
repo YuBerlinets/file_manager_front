@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { api } from '../../app/api/ApiConfig';
-import { Popper, Button, Box, Typography, ClickAwayListener } from '@mui/material';
+import { Popper, Box, Typography, ClickAwayListener } from '@mui/material';
 
 interface User {
     username: string;
     name: string;
     accountIsConfirmed: boolean;
+    planStorageCapacity: string;
     registrationDate: Date;
     roles: string[];
 }
@@ -82,7 +83,7 @@ export default function UserDetails() {
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(anchorEl ? null : event.currentTarget);
-        setNewPassword(null);  // Reset the new password display on button click
+        setNewPassword(null);  
     };
 
     const handleResetPassword = async () => {
@@ -117,6 +118,7 @@ export default function UserDetails() {
                         {!user.accountIsConfirmed && <button onClick={handleConfirm} className='user_details_confirm_button'>Confirm User</button>}
                         <p className='account_info_inner'>Username: <span className='account_info_field'>{user.username}</span></p>
                         <p className='account_info_inner'>Name:<span className='account_info_field'> {user.name}</span></p>
+                        <p className='account_info_inner'>Storage plan capacity:<span className='account_info_field'> {user.planStorageCapacity + 'GB'}</span></p>
                         <p className='account_info_inner'>Account Confirmed:<span className='account_info_field'> {user.accountIsConfirmed ? 'Yes' : 'No'}</span></p>
                         <p className='account_info_inner'>Registration Date:<span className='account_info_field'>{user.registrationDate.toLocaleString()}</span></p>
                         <p className='account_info_inner'>Roles:</p>

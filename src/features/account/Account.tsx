@@ -7,6 +7,7 @@ interface User {
     username: string;
     name: string;
     accountIsConfirmed: boolean;
+    planStorageCapacity: string;
     roles: string[];
     registrationDate: Date;
 }
@@ -18,6 +19,7 @@ export default function Account() {
         username: '',
         name: '',
         accountIsConfirmed: false,
+        planStorageCapacity: '',
         roles: [],
         registrationDate: new Date()
     });
@@ -74,6 +76,7 @@ export default function Account() {
                         {/* <span className="account_info_inner">Username: <span className='account_info_field'>{userData.username}</span></span> */}
                         <span className="account_info_inner">Name: <span className='account_info_field'>{userData.name}</span></span>
                         <span className="account_info_inner">Account confirmed: <span className='account_info_field'>{userData.accountIsConfirmed ? 'Yes. Everything is fine.' : 'No. Wait admin to confirm it.'}</span></span>
+                        <span className="account_info_inner">Storage capacity: <span className='account_info_field'>{userData.planStorageCapacity + 'GB'}</span></span>
                         <span className="account_info_inner">Roles: <span className='account_info_field'>{userData.roles.toString()}</span></span>
                         <span className="account_info_inner">Registration date: <span className='account_info_field'>{userData.registrationDate.toLocaleString()}</span></span>
                     </div>

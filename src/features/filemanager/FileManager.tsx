@@ -4,6 +4,8 @@ import "/src/assets/styles/filemanager.css";
 import folderIcon from "/src/img/folder.svg";
 import fileIcon from "/src/img/file.svg";
 import uploadIcon from "/src/img/upload-icon.svg";
+import trashCanIcon from "/src/img/trash_can.svg";
+import downloadIcon from "/src/img/download_icon.svg";
 import { useNavigate } from 'react-router-dom';
 
 interface File {
@@ -80,6 +82,19 @@ const FileManager: React.FC = () => {
             console.error('No file selected');
         }
     };
+
+    const handleDelete = async (fileName: string) => {
+        try {
+            const response = await api.files.deleteFile(fileName);
+            if (response.status === 200) {
+                fetchFiles(currentPath);
+            } else {
+                console.error('File deletion failed');
+            }
+        } catch (error) {
+            console.error('Error deleting file:', error);
+        }
+    }
 
     const handleSearch = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -191,9 +206,15 @@ const FileManager: React.FC = () => {
                                 <td>{file.path}</td>
                                 <td>{file.size ?? ''}</td>
                                 <td>
-                                    {!file.directory && (
-                                        <a onClick={() => handleDownload(file.path)} className='download_button'>Download</a>
-                                    )}
+                                    <div className="file_actions">
+
+                                        {!file.directory && (
+                                            <img src={downloadIcon} onClick={() => handleDownload(file.path)} className='actions_icon download_icon' />
+                                        )}
+                                        {!file.directory && (
+                                            <img src={trashCanIcon} onClick={() => handleDelete(file.path)} className='actions_icon' />
+                                        )}
+                                    </div>
                                 </td>
                             </tr>
                         ))}
