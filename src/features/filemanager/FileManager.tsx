@@ -134,6 +134,7 @@ const FileManager: React.FC = () => {
     return (
         <div className="container">
             <div className="upper_div">
+                <a onClick={() => navigate('/')} className='upper_control_button'>Frukhmara</a>
                 <span className="upper_info">
                     {localStorage.getItem('username')} <br />
                     <a className='upper_control_button' onClick={() => navigate('/account')}>Settings</a><br />
